@@ -4,6 +4,7 @@ import Spinner from "../components/ui/Spinner";
 import { Link } from "react-router-dom";
 import Button from "../components/ui/Button";
 import { LuBadgeCheck } from "react-icons/lu";
+
 const QuizApp = () => {
   const [questions, setQuestions] = useState(() => {
     const savedQuestions = localStorage.getItem("questions");
@@ -43,6 +44,12 @@ const QuizApp = () => {
     setTimer(30);
     setShowScore(false);
   };
+
+  function decodeHtmlEntities(str) {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = str;
+    return txt.value;
+  }
 
   const clearQuizData = () => {
     localStorage.removeItem("questions");
@@ -175,7 +182,7 @@ const QuizApp = () => {
               <LuBadgeCheck className="w-24 h-24 text-blue-500" />
               <h2 className="text-3xl  text-blue-500 mb-4">Quiz Completed!</h2>
               <p className="text-xl mb-4">Your score : {score}</p>
-              <div className="grid grid-cols-3 gap-x-10 p-8 m-8 w-full border border-red-900">
+              <div className="grid grid-cols-3 gap-x-10 p-8 m-8 w-full border border-purple-900">
                 <div className="flex flex-col text-center">
                   <h1 className="font-semibold">Answered Questions</h1>
                   <p>{answeredCount}</p>
@@ -211,20 +218,18 @@ const QuizApp = () => {
                     Time remaining: {timer}s
                   </p>
                 </div>
-                <h2
-                  className="text-xl mb-4"
-                  dangerouslySetInnerHTML={{
-                    __html: questions[currentQuestion].question,
-                  }}
-                ></h2>
+                <h2 className="text-xl mb-4">
+                  {decodeHtmlEntities(questions[currentQuestion].question)}
+                </h2>
                 <div className="space-y-2 flex-grow">
                   {randomQuestions.map((answer, index) => (
                     <button
                       key={index}
                       className="w-full p-2 text-left bg-blue-100 hover:bg-blue-200 rounded"
                       onClick={() => handleAnswerClick(answer)}
-                      dangerouslySetInnerHTML={{ __html: answer }}
-                    ></button>
+                    >
+                      {decodeHtmlEntities(answer)}
+                    </button>
                   ))}
                 </div>
                 <div className="mt-auto">
