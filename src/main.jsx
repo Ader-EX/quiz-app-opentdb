@@ -11,6 +11,8 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Navigation from "./components/global/Navigation";
 import App from "./App";
 import QuizApp from "./routes/Quiz.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +26,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <>
+        <Login />
+      </>
+    ),
   },
   {
     path: "/dashboard",
@@ -48,6 +54,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
+      <ToastContainer />
       <RouterProvider router={router} />
     </AuthProvider>
   </React.StrictMode>
